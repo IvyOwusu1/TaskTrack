@@ -1,25 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>TaskTrack</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TaskTrack</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(120deg,#4facfe,#00f2fe);
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    width:90%;
+    max-width:500px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+}
+
+form{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+input{
+    flex:1;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    background:#4facfe;
+    border:none;
+    color:white;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#00c6ff;
+}
+
+ul{
+    list-style:none;
+    padding:0;
+}
+
+li{
+    background:#f4f4f4;
+    margin-bottom:8px;
+    padding:10px;
+    border-radius:5px;
+}
+
+</style>
 </head>
 
 <body>
 
+<div class="container">
+
 <h1>TaskTrack</h1>
 
 <form action="/add" method="POST">
-    <input type="text" name="task" placeholder="Enter a task" required>
-    <button type="submit">Add Task</button>
+
+<input 
+type="text"
+name="task"
+placeholder="Enter a task..."
+required>
+
+<button type="submit">
+Add
+</button>
+
 </form>
 
-<h2>Your Tasks</h2>
-
 <ul>
-    {% for task in tasks %}
-        <li>{{ task[1] }}</li>
-    {% endfor %}
+
+{% for task in tasks %}
+<li>{{ task[1] }}</li>
+{% endfor %}
+
 </ul>
+
+</div>
 
 </body>
 </html>
