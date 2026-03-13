@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TaskTrack</title>
+</head>
+
+<body>
+
+<h1>TaskTrack</h1>
+
+<form action="/add" method="POST">
+    <input type="text" name="task" placeholder="Enter a task" required>
+    <button type="submit">Add Task</button>
+</form>
+
+<h2>Your Tasks</h2>
+
+<ul>
+    {% for task in tasks %}
+        <li>{{ task[1] }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
