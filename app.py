@@ -37,7 +37,7 @@ def add():
         cursor.execute("INSERT INTO tasks (title) VALUES (?)", (task,))
         conn.commit()
         conn.close()
-
+ 
     return redirect("/")
 
 if __name__ == "__main__":
