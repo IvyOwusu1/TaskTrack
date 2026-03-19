@@ -9,65 +9,113 @@
 
 <style>
 
-body{
+body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(120deg,#4facfe,#00f2fe);
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    background: #f8f9fa;
+    margin: 0;
 }
 
-.container{
-    background:white;
-    padding:30px;
-    border-radius:10px;
-    width:90%;
-    max-width:500px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+/* center container */
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 60px;
 }
 
-h1{
-    text-align:center;
+/* main app card */
+.container {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
-form{
-    display:flex;
-    gap:10px;
-    margin-bottom:20px;
+/* title */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-input{
-    flex:1;
-    padding:10px;
-    border:1px solid #ccc;
-    border-radius:5px;
+/* form layout */
+form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-button{
-    background:#4facfe;
-    border:none;
-    color:white;
-    padding:10px 15px;
-    border-radius:5px;
-    cursor:pointer;
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
 }
 
-button:hover{
-    background:#00c6ff;
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: #4facfe;
+    color: white;
+    cursor: pointer;
 }
 
-ul{
-    list-style:none;
-    padding:0;
+button:hover {
+    background: #00c6ff;
 }
 
-li{
-    background:#f4f4f4;
-    margin-bottom:8px;
-    padding:10px;
-    border-radius:5px;
+/* task list */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: #f1f3f5;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+/* VIEW MODE (default row layout) */
+.view-mode {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* action buttons */
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.actions a {
+    margin-left: 8px;
+    text-decoration: none;
+}
+
+/* EDIT MODE */
+.edit-mode form {
+    display: flex;
+    gap: 10px;
+}
+
+/* responsive tweak */
+@media (max-width: 500px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
 }
 
 </style>
@@ -75,33 +123,58 @@ li{
 
 <body>
 
+<div class="wrapper">
 <div class="container">
 
 <h1>TaskTrack</h1>
 
 <form action="/add" method="POST">
-
-<input 
-type="text"
-name="task"
-placeholder="Enter a task..."
-required>
-
-<button type="submit">
-Add
-</button>
-
+    <input type="text" name="task" placeholder="Enter your task..." required>
+    <button type="submit">+ Add Task</button>
 </form>
 
 <ul>
-
 {% for task in tasks %}
-<li>{{ task[1] }}</li>
-{% endfor %}
+<li>
 
+    <!-- VIEW MODE -->
+    <div class="view-mode" id="view-{{ task[0] }}">
+        <span>{{ task[1] }}</span>
+
+        <div class="actions">
+            <button onclick="enableEdit('{{ task[0] }}')">✏️</button>
+            <a href="/delete/{{ task[0] }}">🗑️</a>
+        </div>
+    </div>
+
+    <!-- EDIT MODE -->
+    <div class="edit-mode" id="edit-{{ task[0] }}" style="display:none;">
+        <form action="/edit/{{ task[0] }}" method="POST">
+            <input type="text" name="task" value="{{ task[1] }}">
+            <button type="submit">Save</button>
+            <button type="button" onclick="cancelEdit('{{ task[0] }}')">Cancel</button>
+        </form>
+    </div>
+
+</li>
+{% endfor %}
 </ul>
 
 </div>
+</div>
+
+<!-- JS for toggle edit -->
+<script>
+function enableEdit(id) {
+    document.getElementById("view-" + id).style.display = "none";
+    document.getElementById("edit-" + id).style.display = "block";
+}
+
+function cancelEdit(id) {
+    document.getElementById("view-" + id).style.display = "flex";
+    document.getElementById("edit-" + id).style.display = "none";
+}
+</script>
 
 </body>
 </html>

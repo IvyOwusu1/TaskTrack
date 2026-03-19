@@ -40,6 +40,38 @@ def add():
  
     return redirect("/")
 
+
+@app.route("/delete/<int:id>")
+def delete(id):
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("DELETE FROM tasks WHERE id = ?", (id,))
+    
+    conn.commit()
+    conn.close()
+    
+    return redirect("/")
+
+
+@app.route("/edit/<int:id>", methods=["POST"])
+def edit(id):
+    updated_task = request.form.get("task")
+
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "UPDATE tasks SET title = ? WHERE id = ?",
+        (updated_task, id)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/")
+
+
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
