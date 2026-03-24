@@ -10,7 +10,8 @@ def init_db():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL
+            title TEXT NOT NULL,
+            completed INTEGER DEFAULT 0
         )
     """)
     conn.commit()
@@ -70,6 +71,19 @@ def edit(id):
     conn.close()
 
     return redirect("/")
+
+@app.route("/toggle/<int:id>")
+def toggle(id):
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("UPDATE tasks SET completed = NOT completed WHERE id = ?", (id,))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/")
+
 
 
 if __name__ == "__main__":

@@ -46,4 +46,18 @@ def test_add_and_delete_task(client):
     # Delete task using actual ID
     response = client.get(f"/delete/{task_id}")
 
-    assert response.status_code == 302  # should redirect after deletion
+    assert response.status_code == 302  # should redirect after 
+
+
+def test_toggle_task(client):
+    client.post("/add", data={"task": "Toggle Task"})
+
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM tasks WHERE title = ?", ("Toggle Task",))
+    task_id = cursor.fetchone()[0]
+    conn.close()
+
+    response = client.get(f"/toggle/{task_id}")
+
+    assert response.status_code == 302  # should redirect after toggling
