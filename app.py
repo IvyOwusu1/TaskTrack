@@ -38,6 +38,8 @@ def add():
         cursor.execute("INSERT INTO tasks (title) VALUES (?)", (task,))
         conn.commit()
         conn.close()
+
+        print("✅ Task added successfully")
  
     return redirect("/")
 
@@ -51,6 +53,8 @@ def delete(id):
     
     conn.commit()
     conn.close()
+
+    print("✅ Task deleted")
     
     return redirect("/")
 
@@ -70,6 +74,8 @@ def edit(id):
     conn.commit()
     conn.close()
 
+    print("✅ Task updated")
+
     return redirect("/")
 
 @app.route("/toggle/<int:id>")
@@ -81,6 +87,8 @@ def toggle(id):
 
     conn.commit()
     conn.close()
+
+    print("✅ Task status toggled")
 
     return redirect("/")
 
